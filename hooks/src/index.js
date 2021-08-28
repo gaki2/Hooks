@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function getAverage(list) {
+  console.log('평균값 계산중 ...');
   if (list.length === 0) {
     return 0;
   }
@@ -30,11 +31,14 @@ function Average() {
     }
   }
 
+  const avg = useMemo(() => getAverage(list), [list]);
+  
+
   return(
     <div>
       <input onChange={onChange} value={input}></input>
       <button onClick={onClick}>입력</button>
-      <h1>{getAverage(list)}</h1>
+      <h1>{avg}</h1>
     </div>
   )
 }
