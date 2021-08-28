@@ -2,43 +2,39 @@ import React, {useEffect, useState, useReducer, useMemo} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
-const getAverage = numbers => {
-  console.log('평균값 계산중 ...');
-  console.log(numbers);
-  let sum = 0;
-  
-  for (let i = 0; i < numbers.length; i++) {
-    sum += numbers[i];
+function getAverage(list) {
+  if (list.length === 0) {
+    return 0;
   }
-
-  return (sum / numbers.length);
+  let sum = 0;
+  for(let i = 0; i < list.length; i++) {
+    sum += Number(list[i]);
+  }
+  return sum/list.length;
 }
 
-
-
 function Average() {
+  const [input, setInput] = useState('');
   const [list, setList] = useState([]);
-  const [number, setNumber] = useState('');
 
-  const changeNumber = (e) => {
-      setNumber(e.target.value);
+  const onChange = (e) => {
+      setInput(e.target.value);
   }
 
-  const onSubmit = (e) => {
-    let input;
-    if (!Number.isNaN(Number(number))) {
-      input = Number(number);
-      setList([...list, input]);
+  const onClick = () => {
+    if (Number.isNaN(Number(input))) {
+      alert('인풋값은 숫자로 입력해야합니다.');
+    } else {
+    setList([...list, input]);
+    setInput('');
     }
   }
 
-  const avg = useMemo(() => getAverage(list),[list]);
-
   return(
     <div>
-      <p><input onChange={changeNumber} placeholder='값을 입력하세요.'></input><button type='submit' onClick={onSubmit}>제출</button></p>
-      <h1>{avg}</h1>
+      <input onChange={onChange} value={input}></input>
+      <button onClick={onClick}>입력</button>
+      <h1>{getAverage(list)}</h1>
     </div>
   )
 }
